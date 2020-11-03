@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    html {
+        position: relative;
+        overflow-x: hidden !important;
+    }
+
+    body {
+        font-family: sans-serif;
+    }
+
+    a, a:hover {
+        text-decoration: none;
+    }
+
+    .news-slider {
+        z-index: 2;
+        max-width: 1300px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 60px;
+    }
+    @media screen and (max-width: 1300px) {
+        .news-slider {
+            max-width: 1000px;
+        }
+    }
+    @media screen and (max-width: 576px) {
+        .news-slider {
+            margin-top: 45px;
+        }
+    }
+    .news-slider__wrp {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+        z-index: 2;
+    }
+    .news-slider__item {
+        width: 400px;
+        flex-shrink: 0;
+    }
+    @media screen and (max-width: 992px) {
+        .news-slider__item {
+            width: 340px;
+        }
+    }
+    .news-slider__item.swiper-slide {
+        opacity: 0;
+        pointer-events: none;
+        transition: all .3s;
+    }
+    .news-slider__item.swiper-slide-active, .news-slider__item.swiper-slide-prev, .news-slider__item.swiper-slide-next {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .news-slider__ctr {
+        position: relative;
+        z-index: 12;
+    }
+    .news-slider__arrow {
+        background: #fff;
+        border: none;
+        display: inline-flex;
+        width: 50px;
+        height: 50px;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 6px 26px 6px rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        z-index: 12;
+        cursor: pointer;
+        outline: none !important;
+    }
+    .news-slider__arrow:focus {
+        outline: none !important;
+    }
+    .news-slider__arrow .icon-font {
+        display: inline-flex;
+    }
+    .news-slider__arrow.news-slider-prev {
+        left: 15px;
+        transform: translateY(-50%);
+    }
+    .news-slider__arrow.news-slider-next {
+        right: 15px;
+        transform: translateY(-50%);
+    }
+    .news-slider__pagination {
+        text-align: center;
+        margin-top: 50px;
+    }
+    .news-slider__pagination .swiper-pagination-bullet {
+        width: 13px;
+        height: 10px;
+        display: inline-block;
+        background: #fff;
+        opacity: .2;
+        margin: 0 5px;
+        border-radius: 20px;
+        transition: opacity .5s, background-color .5s, width .5s;
+        transition-delay: .5s, .5s, 0s;
+    }
+    .news-slider__pagination .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #ffffff;
+        width: 100px;
+        transition-delay: 0s;
+    }
+    @media screen and (max-width: 576px) {
+        .news-slider__pagination .swiper-pagination-bullet-active {
+            width: 70px;
+        }
+    }
+    .news__item {
+        padding: 40px;
+        color: #fff;
+        border-radius: 10px;
+        display: block;
+        transition: all .3s;
+    }
+    @media screen and (min-width: 800px) {
+        .news__item:hover {
+            color: #222222;
+            transition-delay: .1s;
+        }
+        .news__item:hover .news-date, .news__item:hover .news__title, .news__item:hover .news__txt {
+            opacity: 1;
+            transition-delay: .1s;
+        }
+        .news__item:hover .news__img {
+            box-shadow: none;
+        }
+    }
+    .news__item.active {
+        color: #222222;
+    }
+    .news__item.active .news-date, .news__item.active .news__title, .news__item.active .news__txt {
+        opacity: 1;
+    }
+    .news__item.active .news__img {
+        box-shadow: none;
+    }
+    @media screen and (max-width: 992px) {
+        .news__item {
+            padding: 30px;
+        }
+    }
+    @media screen and (max-width: 576px) {
+        .news__item {
+            padding: 20px;
+        }
+    }
+    .news-date {
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid;
+        display: inline-block;
+        opacity: .7;
+        transition: opacity .3s;
+    }
+    @media screen and (max-width: 576px) {
+        .news-date {
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            padding-bottom: 0;
+        }
+    }
+    .news-date__title {
+        display: block;
+        font-size: 32px;
+        margin-bottom: 10px;
+        font-weight: 500;
+    }
+    @media screen and (max-width: 576px) {
+        .news-date__title {
+            margin-right: 10px;
+        }
+    }
+    .news-date__txt {
+        font-size: 16px;
+    }
+    .news__title {
+        font-size: 25px;
+        font-weight: 500;
+        opacity: .7;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        transition: opacity .3s;
+    }
+    @media screen and (max-width: 576px) {
+        .news__title {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+    }
+    .news__txt {
+        margin: 10px 0;
+        line-height: 1.6em;
+        font-size: 15px;
+        opacity: .7;
+        transition: opacity .3s;
+    }
+    .news__img {
+        border-radius: 10px;
+        box-shadow: 0 6px 26px 6px rgba(0, 0, 0, 0.25);
+        height: 200px;
+        margin-top: 30px;
+        width: 100%;
+        transition: all .3s;
+        transform-origin: 0% 0%;
+    }
+    @media screen and (max-width: 576px) {
+        .news__img {
+            height: 180px;
+            margin-top: 20px;
+        }
+    }
+    .news__img img {
+        max-width: 100%;
+        border-radius: 10px;
+        height: 100%;
+        width: 100%;
+    }
+    #icon{
+        display:none;}
+</style>
+<head>
+    <title>{$head['og_title']}</title>
+    <meta content="charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+    <meta name="X-TOKEN" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="fb:app_id" content="373581646846834"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:site_name" content="Surprize"/>
+    <meta property="og:type" content="website"/>
+
+    <meta property="og:title" content="{$head['og_title']}"/>
+    <meta property="og:description" content="{$head['og_desc']}"/>
+    <meta property="og:url" content="{$head['og_url']}"/>
+    <meta property="og:image" content="{$head['og_image']}"/>
+    <meta property="og:image:secure_url" content="{$head['og_image']}"/>
+    <meta property="og:image:width" content="{$head['og_image_width']}"/>
+    <meta property="og:image:height" content="{$head['og_image_height']}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/pc_common.css?v=4t9Ssq4pZG5R">
+    <link rel="stylesheet" type="text/css" href="/static/css/details.css?v=R8W3GcH4RNpVKtYycm">
+    <style>
+        .check-give-away {
+            padding: 6px 10px;
+            border-radius:6px;
+        }
+        .check-give-away:hover {
+            background: #ffb862;
+        }
+        .pic-con{
+            padding:0;
+            max-height: 335px;            
+        }
+        .pic .gallery-top{
+            width:68%;
+            height: 100%;
+            max-height: 313px;
+            float: left;
+        }
+        .pic .gallery-thumbs{
+            width:32%;
+            float: left;
+            max-height: 313px;
+            padding-top:0;
+            padding-left: 7px;
+            padding-bottom: 0;
+        }
+        .pic .gallery-thumbs .swiper-slide{
+            max-height: 84px;
+            overflow: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+{include file="index/common/pc_header" /}
+
+<!--page-s-->
+<div class="detail-page" id="activity" data-activity_id="<?= !empty($slug)? $slug : '' ?>">
+    <!--item-->
+    <div class="item pic">
+        <div class="container mob-full">
+            <div class="wrapper">
+                <div class="item-bg"></div>
+                <div class="news-slider">
+                    <div class="news-slider__wrp swiper-wrapper">
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                <div class="news__img">
+                                    <img src="/media/images/acer_display/51tuEFDaPhL._SL1500_.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                    <div class="news__img">
+                                    <img src="/media/images/acer_display/71GbO41HbYL._SL1500_.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                <div class="news__img">
+                                    <img src="/media/images/acer_display/71xb7GDuAGL._SL1500_.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                <div class="news__img">
+                                    <img src="/media/images/acer_display/81QpkIctqPL._SL1500_.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                <div class="news__img">
+                                    <img src="/media/images/acer_display/acer_20190806202021.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="news-slider__item swiper-slide">
+                            <a href="#" class="news__item">
+                                <div class="news__img">
+                                    <img src="/media/images/aicook/71+YNp97cTL._SL1500_.jpg" alt="news">
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="news-slider__ctr">
+
+                        <div class="news-slider__arrows">
+                            <button class="news-slider__arrow news-slider-prev">
+          <span class="icon-font">
+            <svg class="icon icon-arrow-left"><use xlink:href="#icon-arrow-left"></use></svg>
+          </span>
+                            </button>
+                            <button class="news-slider__arrow news-slider-next">
+          <span class="icon-font">
+            <svg class="icon icon-arrow-right"><use xlink:href="#icon-arrow-right"></use></svg>
+          </span>
+                            </button>
+                        </div>
+
+                        <div class="news-slider__pagination"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <svg hidden="hidden" id="icon">
+                <defs>
+                    <symbol id="icon-arrow-left" viewBox="0 0 32 32">
+                        <title>arrow-left</title>
+                        <path d="M0.704 17.696l9.856 9.856c0.896 0.896 2.432 0.896 3.328 0s0.896-2.432 0-3.328l-5.792-5.856h21.568c1.312 0 2.368-1.056 2.368-2.368s-1.056-2.368-2.368-2.368h-21.568l5.824-5.824c0.896-0.896 0.896-2.432 0-3.328-0.48-0.48-1.088-0.704-1.696-0.704s-1.216 0.224-1.696 0.704l-9.824 9.824c-0.448 0.448-0.704 1.056-0.704 1.696s0.224 1.248 0.704 1.696z"></path>
+                    </symbol>
+                    <symbol id="icon-arrow-right" viewBox="0 0 32 32">
+                        <title>arrow-right</title>
+                        <path d="M31.296 14.336l-9.888-9.888c-0.896-0.896-2.432-0.896-3.328 0s-0.896 2.432 0 3.328l5.824 5.856h-21.536c-1.312 0-2.368 1.056-2.368 2.368s1.056 2.368 2.368 2.368h21.568l-5.856 5.824c-0.896 0.896-0.896 2.432 0 3.328 0.48 0.48 1.088 0.704 1.696 0.704s1.216-0.224 1.696-0.704l9.824-9.824c0.448-0.448 0.704-1.056 0.704-1.696s-0.224-1.248-0.704-1.664z"></path>
+                    </symbol>
+                </defs>
+            </svg>
+        </div>
+    </div>
+
+    <!--item-->
+    <div class="container pt-5 pb-2">
+        <h5 id="activityUserTitle"></h5>
+    </div>
+
+    <?php if($users['users']['data']){ ?>
+        <div class="item container" id="video" style="display:none">
+            <div class="container">
+                <div class="swiper-container swiper-container-horizontal">
+                    <div class="swiper-wrapper" >
+                        <?php foreach($users['users']['data'] as $ind=>$item){ ?>
+                            <div class="swiper-slide" >
+                                <div>
+                                    <img src="{$item['user']['avatar']}" onerror="this.src='/static/img/default-avatar.jpg'"
+                                         class="rounded-circle "  width="50"/>
+                                    <?php if($info['private']){ ?>
+                                    <p>{:explode(' ', $item['user']['name'])[0]}</p>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <!-- Add Arrows -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+        </div>
+    <?php } ?>
+
+
+    <?php if(!empty($winners['data'])){ ?>
+    <div class="item container" id="winner" style="display:none">
+        <div class="container">
+            <div class="swiper-container swiper-container-horizontal">
+                <div class="swiper-wrapper" >
+                    <?php foreach($winners['data'] as $ind=>$item){ ?>
+                    <div class="swiper-slide" >
+                        <img src="{$item['info']['avatar']}" onerror="this.src='/static/img/default-avatar.jpg'"
+                             class="rounded-circle "  width="50"/>
+                        <p>{$item['info']['name']}</p>
+                    </div>
+                    <?php } ?>
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+    <?php } ?>
+
+
+    <div data-spy="scroll" data-target="#navbar-example" data-offset="100">
+        <!--item-->
+        <div class="item desc" id="features">
+            <div class="container">
+				<h5>Description</h5>
+				<strong class="pb-3 pt-1 d-block">{$info['title']}</strong>
+                <p>{:htmlspecialchars_decode(stripslashes($info['description']))}</p>
+            </div>
+        </div>
+        <!--item-->
+    </div>
+<!--page-e-->
+</div>
+{include file="index/common/pc_footer" /}
+<!-- login with facebook Modal -->
+<div class="modal fade" id="loginInModal" tabindex="-1" role="dialog" aria-labelledby="loginInModalTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginInModalTitle">Surprize Tip</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="loginChoicePop">
+                <p class="h6 font-weight-normal optinText text-center" style="font-size: 16px">Continue below to enter with Facebook.</p>
+                <div class="fb-btn-wrapper text-center">
+                    <button type="button"
+                            class="btn"
+                            data-dismiss="modal"
+                            onclick="loginIntoFB()"
+                            style="background: linear-gradient(90deg, #2196F3, #2196F3);color:white"
+                    >Login with Facebook</button>
+                </div>
+                <span class="clear-fix"></span>
+                <p style="margin-bottom: 0" class="pb-2 pt-2 text-center">or</p>
+                <div style="position: relative" class="text-center" >
+                    <a class="w-100 bg-gradient pt-1" href="javascript:$('#loginChoicePop').hide();$('#emailLoginPop').show();"
+                    ><span style="text-decoration: underline;color:black;cursor: pointer;font-size: 16px">Enter with email</span></a>
+                </div>
+            </div>
+            <div class="modal-body" style="display: none" id="emailLoginPop">
+                <form id="emailLoginForm" onsubmit="return false" class="form-horizontal">
+                    {:token()}
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Full Name:</label>
+                        <input type="text" class="form-control" required id="recipient-name" name="recipient-name" placeholder="" maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-nickname" class="control-label">Nickname:</label>
+                        <input type="text" class="form-control"
+                               required id="recipient-nickname" name="recipient-nickname"
+                               placeholder="Name on YouTube, Instagram etc." maxlength="30">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-email" class="control-label">Email:</label>
+                        <input class="form-control" id="recipient-email" type="email" required name="recipient-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-gender-male" class="control-label radio-inline">Male:</label>
+                        <input  id="recipient-gender-male" type="radio" value="1" name="recipient-gender" checked>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label for="recipient-gender-female" class="control-label radio-inline">Female:</label>
+                        <input  id="recipient-gender-female" type="radio" value="2" name="recipient-gender">
+                    </div>
+                    <div class="form-group text-center">
+                        <button  class="btn btn-default btn-font" onclick="javascript:$('#loginChoicePop').show();$('#emailLoginPop').hide();$('#emailLoginForm')[0].reset();">Back</button>
+                        <button class="btn btn-success emailEnterBtn btn-font" onclick="loginIntoEmail()" style="background: #ff9800; border: #ff9800">Enter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="optInModal" tabindex="-1" role="dialog" aria-labelledby="optInModalTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body text-center" style="font-size:20px">Receive a result notification in Facebook Messenger 👇</div>
+            <div class="modal-footer">
+                <div id="send-to-messenger" >
+                    <div class="fb-send-to-messenger"
+                         messenger_app_id="701245580337669"
+                         page_id="382821282577179"
+                         data-ref="<?= $activity_id ?>"
+                         color="blue"
+                         cta_text="GET_STARTED"
+                         center_align="true"
+                         size="Xlarge">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="fb-root"></div>
+{include file="index/common/scripts" /}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<!--<script>
+    var activity_id, tokenObj, cookieName;
+    activity_id = "<?= $slug ?>";
+    cookieName = "surprizeday_" + activity_id;
+
+    function loginIntoFB() {
+        FB.login(function (result) {
+            console.log(result);
+            setCookie('loginType', 1, (30 * 60 * 1000), '/');
+            loginIntoApp(result.authResponse, afterLogin);
+        }, {scope: 'email'});
+    }
+
+    function afterLogin(data){
+        ajaxRequest("POST", tokenUrl, data, function(res){
+            saveToken(res.token);
+            optInPC($('#enterDrawBtn')[0])
+        });
+    }
+
+    function optInPC(obj){
+        var activity_id = $(obj).data('activity_id');
+        var tokenObj = $('meta[name="X-TOKEN"]');
+        var data = {activity_id: activity_id};
+        var refer_user = getCookie('refer-user-'+ activity_id);
+        var refer_type = getCookie('refer-user-type');
+        if (refer_user) {
+            data.refer = {refer_user: refer_user, refer_type:refer_type}
+        }
+        var userToken = tokenObj.attr('content') ? tokenObj.attr('content') : getCookie('token');
+        if(userToken){
+            /*用户已登录facebook
+            提交token 和 activity_id*/
+            ajaxRequest("POST", joinUrl, data, function(res){
+                var loginType = parseInt(getCookie('loginType'));
+                if (res === 'ok') {
+                    if (loginType === 1) {
+                        $('#optInModal').modal('show');
+                    } else if (loginType === 2) {
+                        Swal.fire({
+                            title: "You're in!",
+                            html: "Check out more awesome giveaways below.<br><span style='text-decoration: underline' onclick='updateEmailModal()'>Keep me updated on the result</span>",
+                            type: 'success',
+                            confirmButtonColor: '#ff8f17',
+                            confirmButtonText: 'More Giveaways'
+                        }).then((result) => {
+                            if (result.value) {
+                                window.location.href = '/';
+                            }
+                        });
+                    }
+                    setCookie(cookieName, 1, (30*60*1000), window.location.pathname);
+                    $('#enterDrawBtn').attr('disabled', true);
+                    $('#backHome').show();
+                    return false;
+                }
+            });
+        } else {
+            /*用户未登录*/
+            $('#loginInModal').modal('show');
+        }
+    }
+
+    function showUser(end) {
+        if (end) {
+            $('#activityUserTitle').html('Congratulations to the winner(s)<br><a href="/winners">Click here to see full winners list</a>');
+            $('#winner').show();
+            $('#enterDrawBtn').attr('disabled', true);
+            $('#backHome').show();
+        } else {
+            $('#activityUserTitle').html("Current participants: <?= $users['users']['total'] ?>");
+            $('#video').show();
+        }
+    }
+
+    function sliderShow(){
+        var galleryThumbs = new Swiper('.pic .gallery-thumbs', {
+            // slidesPerView: 4,
+            // freeMode: true,
+            watchSlidesVisibility: true,
+            watchSlidesProgress: true,
+            direction: 'vertical'
+        });
+        var galleryTop = new Swiper('.pic .gallery-top', {
+            // spaceBetween: 10,
+            navigation: {
+                nextEl: '.pic .swiper-button-next',
+                prevEl: '.pic .swiper-button-prev',
+            },
+            thumbs: {
+                swiper: galleryThumbs
+            }
+        });
+        /*video*/
+        var userSwiper = new Swiper('#video .swiper-container', {
+            slidesPerView: 10,
+            // spaceBetween: 20,
+            // loop: true,
+            // autoPlay: true,
+            // pagination: {
+            //     el: '#video .swiper-pagination',
+            //     clickable: true,
+            //     type: 'fraction'
+            // },
+            navigation: {
+                nextEl: '#video .swiper-button-next',
+                prevEl: '#video .swiper-button-prev',
+            },
+        });
+
+        var winnerSwiper = new Swiper('#winner .swiper-container', {
+            slidesPerView: 10,
+            // spaceBetween: 20,
+            // loop: true,
+            // autoPlay: true,
+            // observer:true,
+            // pagination: {
+            //     el: '#winner .swiper-pagination',
+            //     clickable: true,
+            //     type: 'fraction'
+            // },
+            navigation: {
+                nextEl: '#winner .swiper-button-next',
+                prevEl: '#winner .swiper-button-prev',
+            },
+        });
+    }
+
+
+
+    $(function () {
+        sliderShow();
+        showUser("<?= !empty($winners) ?>");
+        var enterDrawBtn = $('#enterDrawBtn');
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+
+        if(getCookie(cookieName)){
+            enterDrawBtn.attr('disabled', true);
+            $('#backHome').show();
+        }
+
+        enterDrawBtn.show();
+
+        $('#closeModal').on('click', function(){
+            window.location.reload();
+        });
+
+        var param = window.location.search.substring(1);
+        var paramArr = param.split("&");
+        var id = "<?= $activity_id ?>";
+        if (param.indexOf('fbmsguid') !== -1 || param.indexOf('srefer') !== -1) {
+            $(paramArr).each(function(index, item){
+                if (item.indexOf('fbmsguid')===0) {
+                    setCookie('refer-user-'+ id, item.split("=")[1], 3*60*1000, window.location.pathname);
+                }
+                if (item.indexOf('srefer')===0) {
+                    setCookie('refer-user-type', item.split("=")[1], 3*60*1000, window.location.pathname);
+                }
+            });
+        }
+
+        $('.lazy').lazy();
+    })
+</script>-->
+<script>
+    var bg = document.querySelector('.item-bg');
+    var items = document.querySelectorAll('.news__item');
+    var item = document.querySelector('.news__item');
+
+    function cLog(content) {
+        console.log(content)
+    }
+
+    if($(window).width() > 800) {
+        $(document).on("mouseover", ".news__item", function (_event, _element) {
+
+            var newsItem = document.querySelectorAll('.news__item');
+            newsItem.forEach(function (element, index) {
+                element.addEventListener('mouseover', function () {
+                    var x = this.getBoundingClientRect().left;
+                    var y = this.getBoundingClientRect().top;
+                    var width = this.getBoundingClientRect().width;
+                    var height = this.getBoundingClientRect().height;
+
+                    $('.item-bg').addClass('active');
+                    $('.news__item').removeClass('active');
+                    // $('.news__item').removeClass('active');
+
+
+                    bg.style.width = width + 'px';
+                    bg.style.height = height + 'px';
+                    bg.style.transform = 'translateX(' + x + 'px ) translateY(' + y + 'px)';
+                });
+
+                element.addEventListener('mouseleave', function () {
+                    $('.item-bg').removeClass('active');
+                    $('.news__item').removeClass('active');
+                });
+
+            });
+
+        });
+    }
+
+
+    var swiper = new Swiper('.news-slider', {
+        effect: 'coverflow',
+        grabCursor: true,
+        loop: true,
+        centeredSlides: true,
+        keyboard: true,
+        spaceBetween: 0,
+        slidesPerView: 3,
+        // slidesPerView: 'auto',
+        speed: 300,
+        coverflowEffect: {
+            rotate: 0,
+            stretch: 0,
+            depth: 0,
+            modifier: 3,
+            slideShadows: false
+        },
+        breakpoints: {
+            480: {
+                spaceBetween: 0,
+                centeredSlides: true
+            }
+        },
+        simulateTouch: true,
+        navigation: {
+            nextEl: '.news-slider-next',
+            prevEl: '.news-slider-prev'
+        },
+        pagination: {
+            el: '.news-slider__pagination',
+            clickable: true
+        },
+        on: {
+            init: function () {
+                var activeItem = document.querySelector('.swiper-slide-active');
+
+                var sliderItem = activeItem.querySelector('.news__item');
+
+                $('.swiper-slide-active .news__item').addClass('active');
+
+                var x = sliderItem.getBoundingClientRect().left;
+                var y = sliderItem.getBoundingClientRect().top;
+                var width = sliderItem.getBoundingClientRect().width;
+                var height = sliderItem.getBoundingClientRect().height;
+
+
+                $('.item-bg').addClass('active');
+
+                bg.style.width = width + 'px';
+                bg.style.height = height + 'px';
+                bg.style.transform = 'translateX(' + x + 'px ) translateY(' + y + 'px)';
+            }
+        }
+    });
+
+    swiper.on('touchEnd', function () {
+        $('.news__item').removeClass('active');
+        $('.swiper-slide-active .news__item').addClass('active');
+    });
+
+    swiper.on('slideChange', function () {
+        $('.news__item').removeClass('active');
+    });
+
+    swiper.on('slideChangeTransitionEnd', function () {
+        $('.news__item').removeClass('active');
+        var activeItem = document.querySelector('.swiper-slide-active');
+
+        var sliderItem = activeItem.querySelector('.news__item');
+
+        $('.swiper-slide-active .news__item').addClass('active');
+
+        var x = sliderItem.getBoundingClientRect().left;
+        var y = sliderItem.getBoundingClientRect().top;
+        var width = sliderItem.getBoundingClientRect().width;
+        var height = sliderItem.getBoundingClientRect().height;
+
+
+        $('.item-bg').addClass('active');
+
+        bg.style.width = width + 'px';
+        bg.style.height = height + 'px';
+        bg.style.transform = 'translateX(' + x + 'px ) translateY(' + y + 'px)';
+    });
+</script>
+</body>
+</html>

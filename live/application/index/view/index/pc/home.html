@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://v4.bootcss.com/docs/4.0/examples/album/ -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="Https://www.surprizeday.com/favicon.ico">
+
+    <title>Surprize Home Page</title>
+    <meta property="fb:app_id" content="373581646846834" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Surprize" />
+    <meta property="og:type" content="website" />
+
+    <meta property="og:title" content="Surprize Home Page" />
+    <meta property="og:description"
+        content="We are a team of marketing professionals devoted in helping businesses to build brand awareness across social media platforms." />
+    <meta property="og:url" content="https://www.surprizeday.com" />
+    <meta property="og:image" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:secure_url" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/swiper.min.css">
+</head>
+<style>
+    /* 分页 */
+    .pagination {
+        display:block
+    }
+    .pagination li {
+        display: inline-block;
+        margin-right: -1px;
+        padding: 5px;border: 1px solid #e2e2e2;
+        min-width: 30px;
+        text-align: center;
+    }
+    .pagination li.active {
+        background: #ff8905;
+        color: #fff;
+        border: 1px solid #ff8905;
+    }
+    .pagination li:first-child {
+       border-radius: 5px 0 0 5px;
+    }
+    .pagination li:last-child {
+        border-radius:  0 5px 5px 0;
+    }
+    .pagination li a {
+        display: block;
+        text-align: center;
+        color: #3f3f3b;
+    }
+    .card-img-top{
+        width: 100%;
+        display: block;
+        cursor:pointer
+    }
+    .card {
+        box-shadow: 0 10px 11px 3px #dfebf2cc;
+    }
+
+    .nav.nav-tabs li h2 {
+        color: #ff8905
+    }
+    .nav.nav-tabs a:hover {
+        color: #ff8905;
+        text-decoration: none
+    }
+
+    /*-------badge start---------*/
+    .discount {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: #ff8913;
+        position: absolute;
+        right: -25px;
+        top: -25px;
+        color: #fff;
+        font-size: 17px;
+        /*font-weight: bold;*/
+        text-align: center;
+        z-index: 1;
+    }
+    .discount .rebate{
+        font-size: 14px;
+    }
+
+    .row .col-md-4{
+        margin-top:20px;
+    }
+
+
+    /*-------badge end---------*/
+</style>
+<body>
+    {include file="index/common/pc_header" /}
+
+
+
+    <main role="main">
+        <div>
+            <ul class="nav nav-tabs pt-5 d-flex" role="tablist">
+                <li class="col-md-6">
+                    <a href="#giveaways" aria-controls="giveaways" role="tab" data-toggle="tab" class="active">
+                        <h2 class="text-right">Giveaways</h2>
+                    </a>
+                </li>
+                <li class="col-md-6">
+                    <a href="#deals" aria-controls="deals" role="tab" data-toggle="tab">
+                        <h2 class="text-left text-muted">Deals</h2>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="giveaways">
+                <div class="album py-5 ">
+                    <div class="container">
+                        <div class="row">
+                            <?php foreach($activity['activityArr']['data'] as $key=>$value){ ?>
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <a href="{:getActivityUrl($value['slug'])}">
+                                        <img class="card-img-top lazy" data-src="{$value['thumb']['url']}"
+                                             alt="{$value['title']}"
+                                             src="/static/img/holder.png"
+                                             data-holder-rendered="true">
+
+                                    </a>
+                                    <div class="card-body">
+                                        <p class="card-text">{$value['title']}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a href="{:getActivityUrl($value['slug'])}">
+                                                    <?php if($value['expired']){ ?>
+                                                    <button type="button" class="btn btn-sm ">Ended</button>
+                                                    <?php } else { ?>
+                                                    <button type="button" class="btn btn-sm btn-primary" style="background-color: #ff8905;border-color: #ff8905;">Enter Now</button>
+                                                    <?php } ?>
+                                                </a>
+                                            </div>
+                                            <small class="text-muted">{$value['start_time']}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center pb-5">
+                    {$activity['page']|raw}
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane fade " id="deals">
+                <div class="container pt-5 pb-4">
+                    <div class="text-center">
+                        <p><b><span style="color:red">Grand Opening Offer</span>: Get a $20 Amazon E-Gift Card (or Paypal cashback) from us on items with rebate tags!</b></p>
+                    </div>
+                </div>
+
+                <div class="album">
+                    <div class="container">
+                        <div class="row">
+                            <?php foreach($deals['dealsArr']['data'] as $key=>$value){ ?>
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <a data-href="{$value['amazon_url']}" class="check"
+                                       data-code="{$value['amazon_code']}"
+                                       data-save="{$value['rebate']}"
+                                       data-sponsor="{$value['sponsor']}"
+                                       data-discount="{$value['discount']}">
+                                        <img class="card-img-top lazy" data-src="{$value['prize']['main_img_url']}"
+                                             alt="{$value['name']}"
+                                             style="width: 100%; display: block;" src="/static/img/holder.png"
+                                             data-holder-rendered="true">
+
+                                    </a>
+                                    <?php if ($value['sponsor']) { ?>
+                                    <a class="bg-top"> <div class="discount"> <p class="pt-2"><b>{$value['rebate']}</b><br><span class="rebate">REBATE</span></p></div> </a>
+                                    <?php } ?>
+                                    <div class="card-body">
+                                        <p class="card-text">{$value['name']}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a data-href="{$value['amazon_url']}" class="check"
+                                                   data-code="{$value['amazon_code']}"
+                                                   data-save="{$value['rebate']}"
+                                                   data-sponsor="{$value['sponsor']}"
+                                                   data-discount="{$value['discount']}">
+                                                    <button type="button" class="btn btn-sm btn-primary" style="background-color: #ff8905;border-color: #ff8905;">Redeem</button>
+                                                </a>
+                                            </div>
+                                            <small class=""><s>{$value['amazon_price']}</s>&nbsp;&nbsp;<b style="color:red">{$value['promote_price']}</b></small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center pb-5">
+                    {$deals['page']|raw}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {include file="index/common/pc_footer" /}
+    {include file="index/common/scripts" /}
+    <script>
+        $(function () {
+            $('.lazy').lazy();
+            $('.nav-tabs li').on('click', function(){
+                $(this).find('h2').removeClass('text-muted');
+                $(this).siblings().find('h2').addClass('text-muted');
+            });
+            $('.check').on('click', function(){
+                const save = $(this).data('save');
+                const sponsor = isNaN(parseInt($(this).data('sponsor'))) ? 0 : parseInt($(this).data('sponsor'));
+                const discount = $(this).data('discount');
+                const code = $(this).data('code');
+                const url = $(this).data('href');
+                if (sponsor) {
+                    checkSurprizeDeals(this, discount, code, url);
+                } else {
+                    checkOtherDeals(this, discount, code, url, save)
+                }
+            });
+        });
+    </script>
+</body>
+</html>

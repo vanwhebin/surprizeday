@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {include file="index/common/head" /}
+</head>
+<body>
+<script type="text/html" id="template">
+    <div class="card w-100 enrolled">
+        <div class="card-body">
+            <a href="{link}">
+                <img src="{image}" class="card-img-top d-block m-auto lazy" alt="" />
+                <ul class="tag">
+                    <li class="selling-point {tag}"></li>
+                    <li class="time duringTime" data-deadline="{left}">
+                    </li>
+                </ul>
+            </a>
+            <a href="{link}">
+                <h5 class="card-title mt-3 mb-1">{name}</h5>
+            </a>
+            <p class="card-text opacity-70 mb-0">Draw time: <span>{time}</span></p>
+            {in}
+        </div>
+    </div>
+</script>
+
+{include file="index/common/header" /}
+
+<ul class="to-more">
+    <li><a href="mailto:support@surprizeday.com">Contact us: support@surprizeday.com</a></li>
+    <div class="fb-messengermessageus"
+         messenger_app_id="373581646846834"
+         page_id="922651211418763"
+         color="white"
+         size="xlarge">
+    </div>
+</ul>
+
+{include file="index/common/scripts" /}
+</body>
+</html>

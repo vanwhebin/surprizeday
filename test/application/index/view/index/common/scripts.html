@@ -1,0 +1,50 @@
+<script type="application/javascript" src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script>
+    var statusChangeCallback = function (response) {
+        if (response.status === 'connected') {
+            if (!getCookie('token')) {
+                loginIntoApp(response.authResponse, getToken);
+            }
+        } else {
+           /*用户不在facebook登录状态，直接展示给用户*/
+        }
+    };
+
+    var sendMessageCallback = function (response) {
+        if (response.event == 'opt_in') {
+            $('#optInModal').modal('hide');
+            setCookie('getStarted','1', (30*60*1000), '/');
+            Swal.fire({
+                title: "You're almost there!",
+                text: "Confirm your entry in messenger and get notified of the draw result.",
+                type: 'success',
+                confirmButtonColor: '#ff8f17',
+                confirmButtonText: 'More Giveaways'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = '/';
+                }
+            });
+        }
+    };
+
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId               : '701245580337669',
+            autoLogAppEvents    : true,
+            xfbml               : true,
+            cookie              : true,
+            version             : 'v3.3'
+        });
+        FB.Event.subscribe('send_to_messenger', sendMessageCallback);
+    };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--<script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>-->
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="/static/js/app.js?v=G88Ac0ApEhSjBU0ZELB3PO" type="text/javascript"></script>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+

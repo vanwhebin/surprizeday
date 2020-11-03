@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {include file="index/common/head" /}
+</head>
+
+<body>
+<!--header-->
+<div class="header">
+  <div class="features d-flex bd-highlight mb-2 bg-white d-flex align-items-center">
+    <div class="mr-auto bd-highlight">
+      <a href="javascript:window.history.back()"><button type="button" class="btn btn-light btn-border">Back</button></a>
+    </div>
+    <div class="bd-highlight">
+      <button type="button" class="btn btn-light btn-border icon-bars-btn slideButton">MORE</button>
+    </div>
+  </div>
+  <div class="toggle-menu" style="display: none">
+    <div class="features d-flex bd-highlight mb-2 bg-white d-flex align-items-center" style="height:12rem">
+      <div class="bd-highlight">
+        <a href="/"><button type="button" class="btn btn-light btn-border">Home</button></a>
+        <a href="/winners"><button type="button" class="btn btn-light btn-border">Winners</button></a>
+        <a href="/account"><button type="button" class="btn btn-light btn-border">My Draws</button></a>
+        <a href="/policy"><button type="button" class="btn btn-light btn-border">Official Rules</button></a>
+        <a href="/contact"><button type="button" class="btn btn-light btn-border">Contact us</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--header end-->
+
+  <!--view-all-->
+  <div class="view-all d-table w-100 clearfix">
+    <a class="d-block text-center pt-2 pb-2"><span id="total">0</span> participant(s)</a>
+    <ul class="participantes" data-curpage="" data-last="" id="card-container"></ul>
+  </div>
+
+  <!--to-more-->
+  <ul class="to-more" style="display: none">
+    <li><a href="javascript:void(0)">Check more</a></li>
+  </ul>
+
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script>
+  var url, token, num, page, container;
+  url = "/api/v1/activity/{$slug}/users";
+  token = $('meta[name="X-TOKEN"]').attr('content');
+  num = 48;
+  page = 1;
+  container = $('#giveaway-container');
+
+
+  function append(data){
+      var tpl = '<li><i role="img" class="lazyload-avatar"><i><img class="w-100 lazy" data-src="{image}"></i></i></li>';
+      var html = '';
+      $.each(data, function (i, item) {
+          var itemtpl = tpl;
+          var img = item.user.avatar ? item.user.avatar: '/static/img/holder.png';
+          itemtpl = itemtpl.replace(/\{image\}/g, img);
+          itemtpl = itemtpl.replace(/\{name\}/g, item.user.name);
+          html += itemtpl;
+      });
+      $('#giveaway-container').append(html);
+      $('.lazy').lazy();
+  }
+
+  function ajaxRequest(url, token, num, page) {
+      $.ajax({
+          type: 'GET',
+          dataType: 'JSON',
+          headers: { 'token': token },
+          url: url,
+          data: {"num": num, "page": page},
+          success: function(res) {
+              console.log(res);
+              if (res.total !== undefined) {
+                  var data = res.data;
+                  var _con = container;
+                  if (data.data.length !== 0) {
+                      if (res.total > data.data.length ) {
+                          $('.to-more').show();
+                      }
+                      $('#total').text(res.total);
+                      append(data.data);
+                      _con.data('curpage',(parseInt(data.current_page) + 1));
+                  } else {
+                      // _con.append("<span>no more</span>");
+                      $('.to-more').html('');
+                      _con.data('last', true);
+                  }
+              }
+          }
+      });
+  }
+
+
+  $(function(){
+      ajaxRequest(url, token, num, page);
+  });
+
+  $('.to-more').on('click', function(){
+      page = container.data('curpage') ? container.data('curpage') : 1;
+      if (!container.data('last')) {
+          ajaxRequest(url, token, num, page);
+      } else {
+          return false;
+      }
+  });
+
+  $('.slideButton').on('click', function(){
+      $('.toggle-menu').slideToggle('fast');
+  });
+</script>

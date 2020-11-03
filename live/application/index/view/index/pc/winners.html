@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{$head['og_title']}</title>
+    <meta content="charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1">
+    <meta name="X-TOKEN" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta property="fb:app_id" content="373581646846834"/>
+    <meta property="og:locale" content="en_US"/>
+    <meta property="og:site_name" content="Surprize"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{$head['og_title']}"/>
+    <meta property="og:description" content="{$head['og_desc']}"/>
+    <meta property="og:url" content="{$head['og_url']}"/>
+    <meta property="og:image" content="{$head['og_image']}"/>
+    <meta property="og:image:secure_url" content="{$head['og_image']}"/>
+    <meta property="og:image:width" content="{$head['og_image_width']}"/>
+    <meta property="og:image:height" content="{$head['og_image_height']}"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/pc_common.css?v=4t9Ssq4pZG5R">
+    <link rel="stylesheet" type="text/css" href="/static/css/details.css?v=4t9Ssq4pZG5R">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+{include file="index/common/pc_ads" /}
+{include file="index/common/pc_header" /}
+<body>
+<script type="text/html" id="template">
+    <li class="time-label">
+        <span class="bg-green">{dateTime}</span>
+    </li>
+    <li>
+        <i class="fa fa-user bg-purple"></i>
+        <div class="timeline-item">
+            <h3 class="timeline-header"><span style="color:#ff8f17">{winner}</span> won {prizeName}</h3>
+            <div class="timeline-body">
+                <a href="{giveawayUrl}">
+                    <i role="img" class="lazyload-img">
+                        <i>
+                            <img data-src="{prizeImage}" class="card-img-top d-block m-auto lazy"  data-holder-rendered="true"/>
+                        </i>
+                    </i>
+                </a>
+            </div>
+        </div>
+    </li>
+</script>
+<style>
+    .timeline {
+        position: relative;
+        margin: 0 35% 30px 35%;
+        padding: 0;
+        list-style: none;
+    }
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: #ddd;
+        left: 31px;
+        margin: 0;
+        border-radius: 2px;
+    }
+    .timeline > li {
+        position: relative;
+        /*margin-right: 10px;*/
+        margin-bottom: 15px;
+    }
+    .timeline > li:before,
+    .timeline > li:after {
+        content: " ";
+        display: table;
+    }
+    .timeline > li:after {
+        clear: both;
+    }
+    .timeline > li > .timeline-item {
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        margin-top: 0;
+        background: #fff;
+        color: #444;
+        margin-left: 60px;
+        margin-right: 15px;
+        padding: 0;
+        position: relative;
+    }
+    .timeline > li > .timeline-item > .time {
+        color: #999;
+        float: right;
+        padding: 10px;
+        font-size: 12px;
+    }
+    .timeline > li > .timeline-item > .timeline-header {
+        margin: 0;
+        color: #555;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 10px;
+        font-size: 16px;
+        line-height: 1.1;
+    }
+    .timeline > li > .timeline-item > .timeline-header > a {
+        font-weight: 600;
+    }
+    .timeline > li > .timeline-item > .timeline-body,
+    .timeline > li > .timeline-item > .timeline-footer {
+        padding: 10px;
+    }
+    .timeline > li > .fa,
+    .timeline > li > .glyphicon,
+    .timeline > li > .ion {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+        line-height: 30px;
+        position: absolute;
+        color: #ffffff;
+        background: #ff8f17;
+        border-radius: 50%;
+        text-align: center;
+        left: 18px;
+        top: 0;
+    }
+    .timeline > .time-label > span {
+        font-weight: 600;
+        padding: 5px;
+        display: inline-block;
+        background-color: #fff;
+        border-radius: 4px;
+    }
+    .timeline-inverse > li > .timeline-item {
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .timeline-inverse > li > .timeline-item > .timeline-header {
+        border-bottom-color: #ddd;
+    }
+</style>
+<div>
+    <h6 class="opacity-85 mt-3 records text-center" style="padding-left: 1.25rem;color:#ff8f17">WINNERS</h6>
+    <div class="content-wrapper">
+        <!-- Main content -->
+        <section class="content">
+            <!-- row -->
+            <div class="col-md-12">
+                <!-- The time line -->
+                <ul class="timeline" id="winner-container" data-curpage="1" data-last="">
+                    <?php foreach($winners['data'] as $value){ ?>
+                        <li class="time-label">
+                            <span class="bg-green">{:explode(' ', $value['start_time'])[0]}</span>
+                        </li>
+                        <li>
+                            <i class="fa fa-user bg-purple"></i>
+                            <div class="timeline-item">
+                                <h3 class="timeline-header"><span style="color:#ff8f17">{$value['winner']}</span> won {$value['prize'][0]['name']}</h3>
+                                <div class="timeline-body">
+                                    <a href="/surprize/{$value['slug']}">
+                                        <i role="img" class="lazyload-img">
+                                            <i>
+                                                <img data-src="{$value['thumb']['url']}" class="card-img-top d-block m-auto lazy"
+                                                     src="/static/img/holder.png"
+                                                     data-holder-rendered="true"/>
+                                            </i>
+                                        </i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+</div>
+</body>
+{include file="index/common/pc_footer" /}
+</html>
+{include file="index/common/scripts" /}
+<script>
+    function winnerAjaxCallback(res) {
+        var _con = $('#winner-container');
+        if (res.data.length !== undefined && res.data.length !== 0) {
+            if (parseInt(_con.data('curpage')) <= parseInt(res.current_page)
+                || parseInt(res.current_page) === 1) {
+                append(res.data);
+                _con.data('curpage', parseInt(res.current_page) + 1);
+            } else {
+                _con.data('last', true);
+            }
+        } else {
+            _con.data('last', true);
+        }
+    }
+
+    function append(activities) {
+        var tpl = $('#template').html();
+        var html = '';
+        $.each(activities, function (i, item) {
+            var itemtpl = tpl;
+            var url = ('/surprize/' + item.slug);
+            itemtpl = itemtpl.replace(/\{dateTime\}/g, item.start_time.split(' ')[0]);
+            itemtpl = itemtpl.replace(/\{winner\}/g, item.winner);
+            itemtpl = itemtpl.replace(/\{prizeImage\}/g, item.thumb.url);
+            itemtpl = itemtpl.replace(/\{prizeName\}/g, item.prize[0]['name']);
+            itemtpl = itemtpl.replace(/\{giveawayUrl\}/g, url);
+            html += itemtpl;
+        });
+        $('#winner-container').append(html);
+        $('.lazy').Lazy();
+    }
+
+    window.onscroll = function () {
+        //监听事件内容  异步请求活动信息
+        var con = $('#winner-container');
+        var documentTop = getDocumentTop();
+        var windowTop = getWindowHeight();
+        var scrollHeight = getScrollHeight();
+        var page = con.data('curpage') ? con.data('curpage') : 2;
+        var minHeight = parseInt(scrollHeight) - parseInt(windowTop + documentTop);
+        if (minHeight === 0 && !con.data('last')) {
+            // 当滚动条到底时,异步请求最新活动结果
+            ajaxRequest('GET', expireUrl, {"num": 5, "page": page}, winnerAjaxCallback);
+        } else {
+            $('.loading').fadeOut();
+        }
+    };
+    /**------拖动加载其他活动信息end--------------**/
+
+    $(function () {
+        ajaxRequest('GET', expireUrl, {"num": 5, "page": 1}, winnerAjaxCallback);
+        $('.lazy').lazy();
+    });
+</script>
+<script>
+    $('.slideButton').on('click', function(){
+        $('.toggle-menu').slideToggle('fast');
+    });
+</script>

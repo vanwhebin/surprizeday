@@ -1,0 +1,42 @@
+<header class="pb-5">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top ">
+        <div class="container">
+            <a class="navbar-brand" href="/"><img height="23" src="/static/img/logo-w.png"></a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/policy">Policy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/winners">Winners</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)" onclick="showContact()">Contact us</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<script type="text/javascript">
+    function showContact() {
+        Swal.fire({
+            title: 'Contact us',
+            html: 'Email at support@surprizeday.com <br> or Contact us with Messenger 👇',
+            type: 'info',
+            showCloseButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Message us',
+        }).then((result) => {
+            if (result.value) {
+                window.open("https://m.me/surprizeday");
+            }
+        })
+    }
+</script>

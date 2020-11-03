@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)https://v4.bootcss.com/docs/4.0/examples/album/ -->
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="Https://www.surprizeday.com/favicon.ico">
+
+    <title>Surprize In the box</title>
+    <meta property="fb:app_id" content="373581646846834" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Surprize" />
+    <meta property="og:type" content="website" />
+
+    <meta property="og:title" content="Surprize Home Page" />
+    <meta property="og:description"
+        content="We are a team of marketing professionals devoted in helping businesses to build brand awareness across social media platforms." />
+    <meta property="og:url" content="https://www.surprizeday.com" />
+    <meta property="og:image" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:secure_url" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/swiper.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/animate.min.css">
+
+</head>
+<style>
+    .animate-box{
+        animation-duration: 3s;
+        animation-delay: 2s;
+        animation-iteration-count: infinite;
+    }
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        transition: 300ms;
+        transform: scale(0.8);
+    }
+    .swiper-slide-active,.swiper-slide-duplicate-active{
+        transform: scale(1);
+    }
+    .swiper-pagination-bullet-active {
+        background: #ff8905;
+    }
+</style>
+<body>
+    {include file="index/common/pc_header" /}
+
+    <main role="main">
+        <div class="album py-5 ">
+            <div class="container">
+                <h2 class="pb-4 text-center">Surprize Daily Raffles: Win Prizes Instantly!</h2>
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card mb-12 box-shadow">
+                            <img src="/static/img/raffle.png" style="width: 50%; display: block;margin:auto"  class="animate-box" id="showBox">
+                            <div class="card-body">
+                                <p class="card-text text-center">{$activityInfo['title']}</p>
+                                <div class="d-flex ">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="onInstantDraw()" style="background-color: #ff8905;border-color: #ff8905; margin: auto;width: 200px;">Enter Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12">
+                        <h5 class="text-center pt-3">POSSIBLE PRIZES</h5>
+                        <div class="swiper-container">
+                            <div class="swiper-wrapper">
+                                <?php foreach($activityInfo['prize']['pic'] as $key=>$item){ ?>
+                                <div class="swiper-slide"><image src="{$item}" onerror="this.src='/static/img/holder.jpg'" style="width:300px;" class="animate-box"/></div>
+                                <?php } ?>
+                            </div>
+                            <!-- Add Pagination -->
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <div class="modal fade" id="loginInModal" tabindex="-1" role="dialog" aria-labelledby="loginInModalTitle" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginInModalTitle">Surprize Tip</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="loginChoicePop">
+                    <p class="h6 font-weight-normal optinText text-center" style="font-size: 16px">Continue below to enter with Facebook.</p>
+                    <div class="fb-btn-wrapper text-center">
+                        <button type="button"
+                                class="btn"
+                                data-dismiss="modal"
+                                onclick="loginIntoFB()"
+                                style="background: linear-gradient(90deg, #2196F3, #2196F3);color:white"
+                        >Login with Facebook</button>
+                    </div>
+                    <span class="clear-fix"></span>
+                   <!-- <p style="margin-bottom: 0" class="pb-2 pt-2 text-center">or</p>
+                    <div style="position: relative" class="text-center" >
+                        <a class="w-100 bg-gradient pt-1" href="javascript:$('#loginChoicePop').hide();$('#emailLoginPop').show();"
+                        ><span style="text-decoration: underline;color:black;cursor: pointer;font-size: 16px">Enter with email</span></a>
+                    </div>-->
+                </div>
+                <div class="modal-body" style="display: none" id="emailLoginPop">
+                    <form id="emailLoginForm" onsubmit="return false" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="recipient-name" class="control-label">Full Name:</label>
+                            <input type="text" class="form-control" required id="recipient-name" name="recipient-name" placeholder="" maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-nickname" class="control-label">Nickname:</label>
+                            <input type="text" class="form-control"
+                                   required id="recipient-nickname" name="recipient-nickname"
+                                   placeholder="Name on YouTube, Instagram etc." maxlength="30">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-email" class="control-label">Email:</label>
+                            <input class="form-control" id="recipient-email" type="email" required name="recipient-email">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-gender-male" class="control-label radio-inline">Male:</label>
+                            <input  id="recipient-gender-male" type="radio" value="1" name="recipient-gender" checked>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <label for="recipient-gender-female" class="control-label radio-inline">Female:</label>
+                            <input  id="recipient-gender-female" type="radio" value="2" name="recipient-gender">
+                        </div>
+                        <div class="form-group text-center">
+                            <button  class="btn btn-default btn-font" onclick="javascript:$('#loginChoicePop').show();$('#emailLoginPop').hide();$('#emailLoginForm')[0].reset();">Back</button>
+                            <button class="btn btn-success emailEnterBtn btn-font" onclick="loginIntoEmail(this)" style="background: #ff9800; border: #ff9800">Enter</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {include file="index/common/pc_footer" /}
+    {include file="index/common/scripts" /}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var swiper = new Swiper('.swiper-container', {
+                autoPlay: {
+                    delay:1500
+                },
+                slidesPerView: 3,
+                spaceBetween: 10,
+                centeredSlides: true,
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+            });
+            $('.lazy').lazy();
+        });
+
+        const element =  document.querySelector('.animate-box');
+        element.classList.add('animated', 'heartBeat')
+    </script>
+
+</body>
+
+</html>

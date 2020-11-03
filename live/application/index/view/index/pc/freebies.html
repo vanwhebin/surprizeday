@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="Https://www.surprizeday.com/favicon.ico">
+
+    <title>Surprize Freebies</title>
+    <meta property="fb:app_id" content="373581646846834" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:site_name" content="Surprize" />
+    <meta property="og:type" content="website" />
+
+    <meta property="og:title" content="Surprize Home Page" />
+    <meta property="og:description"
+          content="We are a team of marketing professionals devoted in helping businesses to build brand awareness across social media platforms." />
+    <meta property="og:url" content="https://www.surprizeday.com" />
+    <meta property="og:image" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:secure_url" content="https://www.surprizeday.com/media/images/surprize.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="628" />
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/swiper.min.css">
+</head>
+<style>
+    /* 分页 */
+    .pagination {
+        display:block
+    }
+    .pagination li {
+        display: inline-block;
+        margin-right: -1px;
+        padding: 5px;border: 1px solid #e2e2e2;
+        min-width: 30px;
+        text-align: center;
+    }
+    .pagination li.active {
+        background: #ff8905;
+        color: #fff;
+        border: 1px solid #ff8905;
+    }
+    .pagination li:first-child {
+        border-radius: 5px 0 0 5px;
+    }
+    .pagination li:last-child {
+        border-radius:  0 5px 5px 0;
+    }
+    .pagination li a {
+        display: block;
+        text-align: center;
+        color: #3f3f3b;
+    }
+    .card-img-top{
+        width: 100%;
+        display: block;
+        cursor:pointer
+    }
+</style>
+<body>
+{include file="index/common/pc_header" /}
+
+<main role="main">
+    <section class="jumbotron text-center" style="color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+    background: url(/static/img/bg-pattern.png), linear-gradient(to left, #e48c0b, #da6a0b);">
+        <div class="container">
+            <h1 class="jumbotron-heading ">Surprize Freebies</h1>
+            <p>(Limited to one freebie per household)</p>
+        </div>
+    </section>
+
+
+    <div class="album py-5 ">
+        <div class="container">
+            <div class="row">
+                <?php foreach($freebies as $key=>$value){ ?>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <a data-href="{$value['amazon_url']}" class="check" data-code="{$value['amazon_code']}">
+                            <img class="card-img-top lazy" data-src="{$value['prize']['main_img_url']}"
+                                 alt="{$value['name']}"
+                                 src="/static/img/holder.png"
+                                 data-holder-rendered="true">
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">{$value['name']}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a data-href="{$value['amazon_url']}" class="check" data-code="{$value['amazon_code']}">
+                                        <button type="button" class="btn btn-sm btn-primary" style="background-color: #ff8905;border-color: #ff8905;">Redeem</button>
+                                    </a>
+                                </div>
+                                <small class=""><s>{$value['amazon_price']}</s>&nbsp;&nbsp;<b style="color:red">FREE</b></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    </div>
+
+</main>
+{include file="index/common/pc_footer" /}
+{include file="index/common/scripts" /}
+<script>
+    let curFreebieLeft = `<?= $curFreebieLeft ?>`;
+
+    $(function(){
+        if (curFreebieLeft) {
+            Swal.fire({
+                title: 'Oops',
+                html:  'This product is sold out. <br>Please check out other products that we offer.👇',
+                type:  'info',
+                showConfirmButton: true,
+                confirmButtonColor: '#ff8f17',
+                confirmButtonText: 'Check more freebies'
+            });
+        }
+        $('.lazy').lazy();
+
+    });
+
+    $('.check').on('click', function(){
+        check(this, $(this).data('code'), $(this).data('href'));
+    });
+
+
+
+    function check(obj, code, url){
+        if (code) {
+            Swal.fire({
+                title: 'Here is your code: ' + code,
+                html: "<a href='https://m.me/surprizeday' style='text-decoration: underline'>Message us</a> your order number to initiate rebate process.",
+                type: 'success',
+                showCloseButton: true,
+                confirmButtonColor: '#ff8f17',
+                footer: '<b>Offer may expire any time.</b>',
+                confirmButtonText: 'Copy code and go'
+            }).then((result) => {
+                if (result.value) {
+                    copyCoupon(obj);
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Code has been copied!'
+                    }).then(()=>{
+                        window.location.href = url;
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Great',
+                html: "<a href='https://m.me/surprizeday' style='text-decoration: underline'>Message us</a> your order number to initiate rebate process.",
+                type: 'success',
+                showCloseButton: true,
+                confirmButtonColor: '#ff8f17',
+                footer: '<b>Offer may expire any time.</b>',
+                confirmButtonText: 'Shop now'
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = url;
+                }
+            });
+        }
+
+    }
+</script>
+
+</body>
+
+</html>
